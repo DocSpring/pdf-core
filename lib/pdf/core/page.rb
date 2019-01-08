@@ -80,8 +80,8 @@ module PDF
       end
 
       def stamp_stream(dictionary)
-        @stamp_stream     = ''
         @stamp_dictionary = dictionary
+        @stamp_stream     = @stamp_dictionary.stream
         graphic_stack_size = stack.stack.size
 
         document.save_graphics_state
@@ -91,8 +91,6 @@ module PDF
         until graphic_stack_size == stack.stack.size
           document.restore_graphics_state
         end
-
-        @stamp_dictionary << @stamp_stream
 
         @stamp_stream      = nil
         @stamp_dictionary  = nil
