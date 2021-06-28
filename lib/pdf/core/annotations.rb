@@ -17,7 +17,10 @@ module PDF
       def annotate(options)
         state.page.dictionary.data[:Annots] ||= []
         options = sanitize_annotation_hash(options)
-        state.page.dictionary.data[:Annots] << ref!(options)
+        annots = state.page.dictionary.data[:Annots]
+        # Check if Annots is a reference that needs to be resolved
+        annots = annots.data if annots.is_a?(PDF::Core::Reference)
+        annots << ref!(options)
         options
       end
 
